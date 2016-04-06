@@ -14,7 +14,7 @@
           form="form"
           test="evalExpr(this)"
           ng-options="item.value as item.name for item in form.options" destroy-hidden-data>
-          <option ng-show="form.selectedOption" value=""></option>
+          <option ng-show="form.placeholder && !form.selectedOption" value="" label="{{form.placeholder}}" disabled selected></option>
   </select>
   <div class="help-block"
        ng-show="(hasError() && errorMessage(schemaError()))"
