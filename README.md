@@ -37,14 +37,12 @@ To use data in the schema form scope set optionData to the variable you wish to 
 |:-------------------|:--------------------:|:---------------:|
 | "type": "string"   |   select-external    |   optionData    |
 
-#### Promise based
-To use a promise based source, add promise and formatter properties to form.
-
-`form.promise` must be a promise, while `form.formatter` must be a .map callback.
+#### Callback based
+To use the callback based source, add a callback returning a formatted object in the first param..
 
 | Schema             |   Form type          |   Form value    |
 |:-------------------|:--------------------:|:---------------:|
-| "type": "string"   |   select-external    |   promise       |
+| "type": "string"   |   select-external    |   callback      |
 
 Example:
 
@@ -53,10 +51,14 @@ Example:
 var form = [{
   key: 'city',
   type: 'select-external',
-  promise: cityResource.getAll().$promise,
-  formatter: function(each) {
-    return { name: each.name, value: each.id };
-  },
+  callback: cityResource.getAll().$promise.then(function(data) {
+    var formattedData = {};
+    formatted.titleMap = data.map(function(each) {
+      return { name: each.name, value: each.id };
+    })
+
+    return callback(formattedData);
+  }),
 }];
 
 var schema = {

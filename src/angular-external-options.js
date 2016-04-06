@@ -109,15 +109,10 @@ angular.module('schemaForm').directive('externalOptions', function() {
               });
             };
           };
-        } else if (scope.form.promise && scope.form.formatter) {
-          scope.form.promise.then(function(data) {
-            var formmatedData = {
-              titleMap: data.map(scope.form.formatter)
-            };
-
-            processOptions('data:' + scope.form.optionData, formmatedData, scope.form.selectedOption);
+        } else if (scope.form.callback) {
+          scope.form.callback(function(data) {
+            processOptions('data:' + scope.form.optionData, data, scope.form.selectedOption);
           });
-
         } else {
           loadOptions(scope.form.optionSource);
         };
