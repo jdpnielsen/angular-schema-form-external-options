@@ -112,7 +112,7 @@ angular.module('schemaForm').directive('externalOptions', function() {
           };
         } else if (scope.form.callback) {
           scope.form.callback(function(data) {
-            processOptions('data:' + scope.form.optionData, data, scope.form.selectedOption);
+            processOptions('data:' + scope.form.optionData, data, sfSelect(scope.form.key, scope.model));
           });
         } else {
           loadOptions(scope.form.optionSource);
