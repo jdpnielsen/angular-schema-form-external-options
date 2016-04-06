@@ -23,17 +23,50 @@ The external options add-on adds a new default mapping.
 |:--------------------|:--------------------:|
 | "select-external"   |   A select drop down that loads options from an external URI |
 
+#### URI based
 To load data from an external source the type must be string and the links[].rel value must be set to 'options'
 
 | Schema                                          |   Default Form type  |
 |:------------------------------------------------|:--------------------:|
 | "type": "string" and "links[].rel": "options"   |   select-external    |
 
+#### Scope based
 To use data in the schema form scope set optionData to the variable you wish to use.
 
 | Schema             |   Form type          |   Form value    |
 |:-------------------|:--------------------:|:---------------:|
 | "type": "string"   |   select-external    |   optionData    |
+
+#### Promise based
+To use a promise based source, add promise and formatter properties to form.
+
+`form.promise` must be a promise, while `form.formatter` must be a .map callback.
+
+| Schema             |   Form type          |   Form value    |
+|:-------------------|:--------------------:|:---------------:|
+| "type": "string"   |   select-external    |   promise       |
+
+Example:
+
+```javascript
+
+var form = [{
+  key: 'city',
+  type: 'select-external',
+  promise: cityResource.getAll().$promise,
+  formatter: function(each) {
+    return { name: each.name, value: each.id };
+  },
+}];
+
+var schema = {
+  type: 'object',
+  properties: {
+    city: { type: 'string' }
+  }
+};
+
+```
 
 
 Filtering URI

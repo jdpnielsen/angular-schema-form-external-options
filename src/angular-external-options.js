@@ -109,8 +109,16 @@ angular.module('schemaForm').directive('externalOptions', function() {
               });
             };
           };
-        }
-        else {
+        } else if (scope.form.promise && scope.form.formatter) {
+          scope.form.promise.then(function(data) {
+            var formmatedData = {
+              titleMap: data.map(scope.form.formatter)
+            };
+
+            processOptions('data:' + scope.form.optionData, formmatedData, scope.form.selectedOption);
+          });
+
+        } else {
           loadOptions(scope.form.optionSource);
         };
       }
